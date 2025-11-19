@@ -1,0 +1,1166 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jack Davy | Software & AI Engineer</title>
+    <meta name="description" content="Portfolio of Jack Davy, an early-career software & AI engineer based in Encinitas, CA.">
+    <style>
+        /* --- CSS Variables & Dark Theme Reset --- */
+        :root {
+            /* Dark Mode Palette */
+            --bg-body: #0b0f19;
+            --bg-surface: #111827;
+            --bg-surface-hover: #1f2937;
+            
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --text-accent: #38bdf8; /* Cyan */
+            
+            --accent-color: #0ea5e9; /* Sky Blue */
+            --accent-glow: rgba(14, 165, 233, 0.3);
+            --accent-hover: #38bdf8;
+            
+            --border-color: #374151;
+            
+            /* Spacing & Sizing */
+            --container-width: 1100px;
+            --header-height: 70px;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+            
+            /* Transitions */
+            --transition-fast: 0.2s ease;
+            --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Global Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Interactive Ambient Background */
+        .bg-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(
+                800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                rgba(14, 165, 233, 0.06), 
+                transparent 40%
+            );
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.8), var(--bg-body));
+            z-index: -2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color var(--transition-fast);
+        }
+
+        ul { list-style: none; }
+
+        /* --- Utilities --- */
+        .container {
+            width: 100%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-padding { padding: 6rem 0; }
+        
+        .text-accent { color: var(--text-accent); }
+        .text-muted { color: var(--text-muted); }
+
+        /* --- Typography --- */
+        h1, h2, h3 {
+            color: var(--text-main);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            letter-spacing: -0.03em;
+            background: linear-gradient(to right, #fff, #9ca3af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 2.25rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 3px;
+            background: var(--accent-color);
+            margin-top: 0.5rem;
+            border-radius: 2px;
+        }
+
+        h3 { font-size: 1.25rem; font-weight: 600; }
+        
+        p { margin-bottom: 1.5rem; color: var(--text-muted); }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.75rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(14, 165, 233, 0.39);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.23);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-accent);
+            color: var(--text-accent);
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        /* --- Header / Navbar --- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            background-color: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(55, 65, 81, 0.5);
+            transition: background-color 0.3s;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+            opacity: 0; /* Hidden initially */
+            transform: translateY(-10px);
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+
+        .logo.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .nav-links { display: flex; gap: 2rem; }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-links a:hover { color: var(--text-accent); }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .tagline {
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: var(--text-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.85rem;
+        }
+
+        .hero-content p.intro {
+            font-size: 1.2rem;
+            max-width: 540px;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+            color: #94a3b8;
+        }
+
+        .hero-actions { display: flex; gap: 1rem; }
+
+        /* --- Canvas Globe Container --- */
+        .hero-visual {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Subtle glow behind globe */
+            background: radial-gradient(circle at center, rgba(14, 165, 233, 0.05) 0%, transparent 60%);
+        }
+
+        canvas#globe-canvas {
+            width: 100%;
+            height: 100%;
+            cursor: grab;
+            outline: none;
+        }
+
+        canvas#globe-canvas:active { cursor: grabbing; }
+
+        /* Tooltip for Pins */
+        #globe-tooltip {
+            position: absolute;
+            background: rgba(17, 24, 39, 0.95);
+            color: var(--text-accent);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 10;
+            transform: translate(-50%, -140%);
+            white-space: nowrap;
+        }
+        
+        #globe-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgba(56, 189, 248, 0.3) transparent transparent transparent;
+        }
+
+        /* --- About Section --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 4rem;
+        }
+
+        .about-facts {
+            background: var(--bg-surface);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .fact-item {
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 0.5rem;
+        }
+
+        .fact-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .fact-value {
+            font-size: 1rem;
+            color: var(--text-main);
+            font-weight: 500;
+            text-align: right;
+        }
+
+        /* --- Skills Section --- */
+        .bg-offset { background-color: #0f141f; }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-category {
+            background: var(--bg-surface);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            transition: transform var(--transition-fast);
+        }
+
+        .skill-category:hover {
+            border-color: var(--text-accent);
+            transform: translateY(-2px);
+        }
+
+        .skill-category h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+            color: var(--text-accent);
+        }
+
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.8rem;
+            font-size: 0.8rem;
+            border-radius: 999px;
+            background-color: rgba(56, 189, 248, 0.1);
+            color: var(--text-accent);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        /* --- Projects Section --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: all var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .project-content { padding: 2rem; flex-grow: 1; }
+        
+        .project-title { margin-bottom: 0.75rem; color: var(--text-main); }
+
+        .project-desc { font-size: 0.95rem; margin-bottom: 1.5rem; color: #9ca3af; }
+
+        .tag {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            background-color: rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            margin-right: 0.5rem;
+        }
+
+        .project-links {
+            padding: 1.2rem 2rem;
+            background-color: rgba(0,0,0,0.2);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .link-item {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-accent);
+            display: flex;
+            align-items: center;
+        }
+        
+        .link-item:hover { color: var(--accent-hover); }
+
+        /* --- Experience Timeline --- */
+        .timeline-item {
+            display: flex;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .timeline-left {
+            flex-shrink: 0;
+            width: 140px;
+            text-align: right;
+            padding-top: 0.25rem;
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: var(--text-accent);
+            font-family: monospace;
+        }
+
+        .timeline-content {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 8px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: var(--bg-body);
+            border: 2px solid var(--text-accent);
+            box-shadow: 0 0 8px var(--text-accent);
+        }
+
+        .timeline-role { font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+        .timeline-org { font-size: 1rem; color: var(--text-muted); margin-bottom: 1rem; }
+        .timeline-content li { margin-bottom: 0.5rem; color: #9ca3af; font-size: 0.95rem; }
+
+        /* --- Contact --- */
+        .contact-wrapper { text-align: center; max-width: 600px; margin: 0 auto; }
+        .contact-text { font-size: 1.2rem; margin-bottom: 2.5rem; }
+        
+        .social-links {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+        }
+
+        .social-link {
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .social-link:hover { color: var(--text-accent); text-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
+
+        /* --- Footer --- */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background-color: #05080f;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 850px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content { order: 1; }
+            .hero-visual { order: 2; height: 400px; }
+
+            .hero-actions { justify-content: center; }
+
+            .about-grid { grid-template-columns: 1fr; }
+            
+            .timeline-item { flex-direction: column; gap: 0.5rem; }
+            .timeline-left { width: 100%; text-align: left; }
+            .timeline-content { border-left: 1px solid var(--border-color); padding-left: 1.5rem; }
+            
+            h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* Simplified for this demo */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <!-- 1. Sticky Header -->
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo">Jack Davy</a>
+            <nav class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#experience">Experience</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 2. Hero Section -->
+        <section id="hero" class="hero">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <span class="tagline">Software & AI Engineer</span>
+                    <!-- ID added for Intersection Observer -->
+                    <h1 id="hero-name">Jack Davy</h1>
+                    <p class="intro">
+                        I build intelligent systems and scalable backends. Based in Encinitas, CA, I blend solid engineering principles with cutting-edge AI/ML workflows to solve real-world problems.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#" class="btn btn-primary">Download Resume</a>
+                        <a href="#projects" class="btn btn-secondary">View Projects</a>
+                    </div>
+                </div>
+                
+                <!-- 3D Globe Container -->
+                <div class="hero-visual" id="globe-container">
+                    <canvas id="globe-canvas"></canvas>
+                    <div id="globe-tooltip"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. About Section -->
+        <section id="about" class="section-padding">
+            <div class="container">
+                <h2>About Me</h2>
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p>
+                            I have always been fascinated by the intersection of data and utility. My journey into software engineering started with a curiosity about how to automate mundane tasks and grew into a passion for architecting robust systems that leverage machine learning.
+                        </p>
+                        <p>
+                            I thrive in environments where I can dive deep into code, understand the "why" behind the architecture, and contribute to tools that make a tangible difference. Whether it's optimizing a database query or fine-tuning a retrieval strategy for an LLM, I approach every problem with curiosity and precision.
+                        </p>
+                        <p>
+                            When I'm not coding, you can find me exploring the outdoors around Encinitas, hiking trails, or planning my next travel adventure. I believe that a balanced life fuels the creativity needed to solve complex technical problems.
+                        </p>
+                    </div>
+                    <div class="about-facts">
+                        <div class="fact-item">
+                            <span class="fact-label">Location</span>
+                            <span class="fact-value">Encinitas, CA, USA</span>
+                        </div>
+                        <div class="fact-item">
+                            <span class="fact-label">Focus</span>
+                            <span class="fact-value">Backend, AI/ML, Tooling</span>
+                        </div>
+                        <div class="fact-item">
+                            <span class="fact-label">Education</span>
+                            <span class="fact-value">B.S. Computer Science</span>
+                        </div>
+                        <div class="fact-item">
+                            <span class="fact-label">Status</span>
+                            <span class="fact-value text-accent">Open to Opportunities</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Skills Section -->
+        <section id="skills" class="section-padding bg-offset">
+            <div class="container">
+                <h2>Technical Skills</h2>
+                <div class="skills-grid">
+                    
+                    <div class="skill-category">
+                        <h3>Languages</h3>
+                        <div class="skill-tags">
+                            <span class="badge">Python</span>
+                            <span class="badge">TypeScript</span>
+                            <span class="badge">SQL</span>
+                            <span class="badge">Java</span>
+                            <span class="badge">Rust (Learning)</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Data & AI</h3>
+                        <div class="skill-tags">
+                            <span class="badge">PyTorch</span>
+                            <span class="badge">RAG Systems</span>
+                            <span class="badge">OpenAI API</span>
+                            <span class="badge">LangChain</span>
+                            <span class="badge">Vector DBs</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Tools & Infra</h3>
+                        <div class="skill-tags">
+                            <span class="badge">Git</span>
+                            <span class="badge">Docker</span>
+                            <span class="badge">Linux / Bash</span>
+                            <span class="badge">AWS</span>
+                            <span class="badge">PostgreSQL</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3>Concepts</h3>
+                        <div class="skill-tags">
+                            <span class="badge">System Design</span>
+                            <span class="badge">REST APIs</span>
+                            <span class="badge">Agile</span>
+                            <span class="badge">CI/CD</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Projects Section -->
+        <section id="projects" class="section-padding">
+            <div class="container">
+                <h2>Featured Projects</h2>
+                <div class="projects-grid">
+                    
+                    <article class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">Intelligent Doc Search</h3>
+                            <p class="project-desc">
+                                A RAG-based CLI tool that allows users to query local PDF documentation using natural language. Built to improve developer productivity when navigating legacy docs.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">LangChain</span>
+                                <span class="tag">ChromaDB</span>
+                            </div>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="link-item">View Code &rarr;</a>
+                            <a href="#" class="link-item">Live Demo &rarr;</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">E-Commerce Analytics Engine</h3>
+                            <p class="project-desc">
+                                Backend service that aggregates sales data and processes daily reports. Optimized SQL queries to reduce report generation time by 40% for datasets >1TB.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">PostgreSQL</span>
+                                <span class="tag">Flask</span>
+                                <span class="tag">Docker</span>
+                            </div>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="link-item">View Code &rarr;</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">Travel Log Mapper</h3>
+                            <p class="project-desc">
+                                RESTful API for tracking personal travel history and mapping locations. Implemented JWT authentication, rate limiting, and comprehensive unit tests.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">Node.js</span>
+                                <span class="tag">Express</span>
+                                <span class="tag">Leaflet.js</span>
+                            </div>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="link-item">View Code &rarr;</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">Sentiment Watch</h3>
+                            <p class="project-desc">
+                                Automated pipeline that scrapes public forum data and classifies sentiment trends over time using a fine-tuned transformer model from HuggingFace.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">Transformers</span>
+                                <span class="tag">Pandas</span>
+                            </div>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="link-item">View Code &rarr;</a>
+                            <a href="#" class="link-item">Read Case Study &rarr;</a>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Experience Section -->
+        <section id="experience" class="section-padding bg-offset">
+            <div class="container">
+                <h2>Experience</h2>
+                <div class="timeline">
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-left">
+                            <span class="timeline-date">2023 – Present</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-role">Junior Software Engineer</h3>
+                            <div class="timeline-org">Tech Company Placeholder</div>
+                            <ul>
+                                <li>Developing and maintaining internal tooling APIs used by data science teams, increasing data accessibility by 30%.</li>
+                                <li>Collaborating on the migration of legacy scripts to a modern Python package structure, improving maintainability.</li>
+                                <li>Assisting in integrating LLM capabilities into the customer support chatbot workflow.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-left">
+                            <span class="timeline-date">2022 – 2023</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-role">Software Engineering Intern</h3>
+                            <div class="timeline-org">Startup Name Placeholder</div>
+                            <ul>
+                                <li>Built automated testing suites for the core web application using Selenium and PyTest.</li>
+                                <li>Refactored frontend components to improve page load speeds by 15%.</li>
+                                <li>Participated in daily stand-ups and bi-weekly sprint planning in an Agile environment.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-left">
+                            <span class="timeline-date">2021 – 2022</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-role">Data Analyst Assistant</h3>
+                            <div class="timeline-org">University Research Lab</div>
+                            <ul>
+                                <li>Cleaned and processed large datasets using SQL and Python for environmental research projects.</li>
+                                <li>Created visualizations in Matplotlib to communicate findings to non-technical stakeholders.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Contact Section -->
+        <section id="contact" class="section-padding">
+            <div class="container contact-wrapper">
+                <h2>Get In Touch</h2>
+                <p class="contact-text text-muted">
+                    I’m currently open to new opportunities in backend engineering and AI tooling. Whether you have a question or just want to say hi, I’d love to hear from you.
+                </p>
+                <a href="mailto:jack@example.com" class="btn btn-primary">Say Hello</a>
+
+                <div class="social-links">
+                    <a href="#" class="social-link">GitHub</a>
+                    <a href="#" class="social-link">LinkedIn</a>
+                    <a href="#" class="social-link">X / Twitter</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <script>document.write(new Date().getFullYear())</script> Jack Davy. Built with clean HTML, CSS & Vanilla JS.</p>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * Interactive Background: Mouse Follower
+         */
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            document.documentElement.style.setProperty('--mouse-x', `${x}%`);
+            document.documentElement.style.setProperty('--mouse-y', `${y}%`);
+        });
+
+        /**
+         * 1. Header Visibility Logic
+         * Shows the "Jack Davy" logo in the navbar only when scrolled past the main H1.
+         */
+        const navLogo = document.querySelector('.logo');
+        const heroName = document.getElementById('hero-name');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    navLogo.classList.add('visible');
+                } else {
+                    navLogo.classList.remove('visible');
+                }
+            });
+        }, { rootMargin: "-60px 0px 0px 0px" });
+
+        if(heroName) observer.observe(heroName);
+
+
+        /**
+         * 2. Interactive 3D Globe with Continent Outlines (Vanilla JS)
+         */
+        const canvas = document.getElementById('globe-canvas');
+        const ctx = canvas.getContext('2d');
+        const tooltip = document.getElementById('globe-tooltip');
+        let width, height;
+
+        // Configuration
+        const globeRadius = 180;
+        const rotationSpeed = 0.002;
+        let rotationX = 0.4; // Tilt
+        let rotationY = 0;   // Spin
+        let autoRotate = true;
+        
+        // Interaction State
+        let isDragging = false;
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        let velocityX = 0;
+        let velocityY = 0;
+
+        // Simplified Continent Outlines (Lat/Lon paths)
+        // These are simplified polygon loops to represent land masses in a "tech/wireframe" style
+        const continents = [
+             // South America
+            [ [10, -75], [-5, -35], [-20, -40], [-55, -65], [-50, -75], [-15, -80], [10, -75] ],
+            // North America
+            [ [70, -160], [70, -60], [55, -55], [30, -80], [10, -80], [10, -95], [20, -105], [30, -115], [60, -140], [70, -160] ],
+            // Africa
+            [ [36, -5], [36, 12], [30, 32], [10, 50], [0, 45], [-10, 40], [-35, 30], [-35, 20], [0, 9], [5, -5], [15, -18], [36, -5] ],
+            // Europe / Asia (Simplified)
+            [ [36, -5], [70, -10], [70, 170], [20, 120], [10, 100], [25, 60], [40, 40], [36, -5] ],
+            // Australia
+            [ [-11, 130], [-11, 145], [-35, 150], [-38, 140], [-35, 115], [-20, 115], [-11, 130] ]
+        ];
+
+        // Pins: Lat, Lon, Label
+        const pins = [
+            { lat: -33.86, lon: 151.20, label: "Sydney, AUS" },
+            { lat: 44.05, lon: -123.08, label: "Eugene, OR" },
+            { lat: 32.71, lon: -117.16, label: "San Diego, CA" },
+            { lat: 35.77, lon: -78.63, label: "Raleigh, NC" }
+        ];
+
+        function resize() {
+            const parent = canvas.parentElement;
+            width = parent.clientWidth;
+            height = parent.clientHeight;
+            // Handle high-DPI displays
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.scale(dpr, dpr);
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Convert Lat/Lon to 3D Vector
+        function latLonToVector3(lat, lon, radius) {
+            const phi = (90 - lat) * (Math.PI / 180);
+            const theta = (lon + 180) * (Math.PI / 180);
+            const x = -(radius * Math.sin(phi) * Math.cos(theta));
+            const z = (radius * Math.sin(phi) * Math.sin(theta));
+            const y = (radius * Math.cos(phi));
+            return { x, y, z };
+        }
+
+        // 3D Projection Logic
+        function project(x, y, z) {
+            // Simple perspective projection
+            const scale = 350 / (350 + z);
+            const px = x * scale + width / 2;
+            const py = y * scale + height / 2;
+            return { x: px, y: py, scale, z };
+        }
+
+        // Rotation Matrix
+        function rotate(x, y, z, angleX, angleY) {
+            let cosY = Math.cos(angleY);
+            let sinY = Math.sin(angleY);
+            let x1 = x * cosY - z * sinY;
+            let z1 = z * cosY + x * sinY;
+            
+            let cosX = Math.cos(angleX);
+            let sinX = Math.sin(angleX);
+            let y2 = y * cosX - z1 * sinX;
+            let z2 = z1 * cosX + y * sinX;
+            
+            return { x: x1, y: y2, z: z2 };
+        }
+
+        // Interpolate points for smoother lines (Great Circle approximation essentially)
+        function getPointsOnPath(path) {
+            let points3d = [];
+            for(let i=0; i<path.length; i++) {
+                const p1 = path[i];
+                const p2 = path[(i + 1) % path.length];
+                // Just add the points, real curves are hard in 3D without complex math
+                // but we add intermediate points to help with 3D curvature visualization
+                const steps = 5;
+                for(let j=0; j<steps; j++) {
+                    const t = j/steps;
+                    const lat = p1[0] + (p2[0] - p1[0]) * t;
+                    const lon = p1[1] + (p2[1] - p1[1]) * t;
+                    points3d.push(latLonToVector3(lat, lon, globeRadius));
+                }
+            }
+            return points3d;
+        }
+
+        // Pre-calculate continent 3D points
+        const continentShapes = continents.map(path => getPointsOnPath(path));
+
+        // Main Draw Loop
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Physics
+            if (!isDragging) {
+                if (autoRotate) {
+                    rotationY += rotationSpeed;
+                    rotationX += (0.4 - rotationX) * 0.02; // Return to 0.4 tilt
+                } else {
+                    rotationY += velocityX;
+                    rotationX += velocityY;
+                    velocityX *= 0.95;
+                    velocityY *= 0.95;
+                    if (Math.abs(velocityX) < 0.0005 && Math.abs(velocityY) < 0.0005) autoRotate = true;
+                }
+            }
+
+            // 1. Draw Sphere Outline (Back)
+            ctx.strokeStyle = 'rgba(14, 165, 233, 0.1)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(width/2, height/2, globeRadius, 0, Math.PI*2);
+            ctx.stroke();
+
+            // 2. Draw Latitude/Longitude Grid (Subtle)
+            // Latitudes
+            for (let lat = -60; lat <= 60; lat += 30) {
+                const path = [];
+                for (let lon = 0; lon <= 360; lon += 10) {
+                    path.push(latLonToVector3(lat, lon, globeRadius));
+                }
+                drawPath(path, 'rgba(56, 189, 248, 0.05)', 1);
+            }
+
+            // 3. Draw Continents
+            continentShapes.forEach(shape => {
+                drawPath(shape, '#0ea5e9', 2); // Blue outlines
+            });
+
+            // 4. Draw Pins
+            const projectedPins = [];
+            pins.forEach(pin => {
+                const v = latLonToVector3(pin.lat, pin.lon, globeRadius);
+                const rot = rotate(v.x, v.y, v.z, rotationX, rotationY);
+                const proj = project(rot.x, rot.y, rot.z);
+                
+                // Store for hit testing
+                if(proj.z > -50) { // Only front-ish pins
+                    projectedPins.push({ ...proj, data: pin });
+                    drawPin(proj.x, proj.y, proj.scale);
+                }
+            });
+
+            // Hit Testing
+            let hovered = null;
+            projectedPins.forEach(p => {
+                const dx = mouseX - p.x;
+                const dy = mouseY - (p.y - 15 * p.scale);
+                if (dx*dx + dy*dy < 400) hovered = p;
+            });
+
+            if (hovered) {
+                tooltip.style.opacity = 1;
+                tooltip.innerText = hovered.data.label;
+                tooltip.style.left = hovered.x + 'px';
+                tooltip.style.top = (hovered.y - 20) + 'px';
+                canvas.style.cursor = 'pointer';
+                autoRotate = false;
+            } else {
+                tooltip.style.opacity = 0;
+                canvas.style.cursor = isDragging ? 'grabbing' : 'grab';
+            }
+
+            requestAnimationFrame(draw);
+        }
+
+        // Helper to draw a 3D path
+        function drawPath(points, color, lineWidth) {
+            ctx.beginPath();
+            let first = true;
+            let isBehind = false;
+            
+            for (let i = 0; i < points.length; i++) {
+                const p = points[i];
+                const rot = rotate(p.x, p.y, p.z, rotationX, rotationY);
+                const proj = project(rot.x, rot.y, rot.z);
+
+                // Visibility check (simple back-face culling approximation)
+                // If z is very negative, it's behind. We can adjust opacity or skip.
+                if (rot.z < -50) {
+                    isBehind = true;
+                     // We continue drawing but maybe faint? 
+                     // For outlines, usually we just don't draw if it wraps too far,
+                     // but simple connectivity is better for wireframes.
+                } else {
+                    isBehind = false;
+                }
+
+                if (first) {
+                    ctx.moveTo(proj.x, proj.y);
+                    first = false;
+                } else {
+                    ctx.lineTo(proj.x, proj.y);
+                }
+            }
+            
+            ctx.strokeStyle = color;
+            ctx.lineWidth = lineWidth;
+            // Simple transparency for back of globe
+            ctx.globalAlpha = isBehind ? 0.1 : 0.8; 
+            ctx.stroke();
+            ctx.globalAlpha = 1.0;
+        }
+
+        function drawPin(x, y, scale) {
+            const stickLen = 15 * scale;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, y - stickLen);
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(x, y - stickLen, 3 * scale, 0, Math.PI * 2);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+            
+            // Glow
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#0ea5e9';
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+        }
+
+        // Mouse Handling
+        let mouseX = 0;
+        let mouseY = 0;
+
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
+
+            if (isDragging) {
+                const deltaX = mouseX - lastMouseX;
+                const deltaY = mouseY - lastMouseY;
+                rotationY += deltaX * 0.005;
+                rotationX -= deltaY * 0.005;
+                velocityX = deltaX * 0.005;
+                velocityY = deltaY * 0.005;
+                lastMouseX = mouseX;
+                lastMouseY = mouseY;
+            }
+        });
+
+        canvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            autoRotate = false;
+            const rect = canvas.getBoundingClientRect();
+            lastMouseX = e.clientX - rect.left;
+            lastMouseY = e.clientY - rect.top;
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        draw();
+
+    </script>
+</body>
+</html>
